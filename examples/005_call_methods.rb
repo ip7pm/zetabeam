@@ -26,6 +26,10 @@ end
 
 pid = Beam::spawn Worker, :run, []
 
+puts '-'*10
+p Beam::Process::list()
+puts '-'*10
+
 Beam::msg pid, [:job_compute, [4]]
 Beam::msg pid, [:job_name, ['Mr', 'Bob']]
 Beam::msg pid, [:no_method, []]

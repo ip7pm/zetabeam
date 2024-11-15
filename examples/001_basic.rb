@@ -18,6 +18,10 @@ end
 
 pid = Beam::spawn Worker, :run, []
 
+puts '-'*10
+p Beam::Process::list()
+puts '-'*10
+
 Beam::msg pid, [:msg, 'hello world']
 sleep 1
 

@@ -39,6 +39,10 @@ pid_watcher = Beam::spawn Watcher, :run, []
 
 sleep 1
 
+puts '-'*10
+p Beam::Process::list()
+puts '-'*10
+
 Beam::msg pid_watcher, [:msg, pid_worker1, 'hello world']
 Beam::msg pid_watcher, [:msg, pid_worker2, 'hello world']
 

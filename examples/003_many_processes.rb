@@ -35,9 +35,11 @@ end
 pid_worker = Beam::spawn Worker, :run, []
 pid_watcher = Beam::spawn Watcher, :run, []
 
+puts '-'*10
+p Beam::Process::list()
+puts '-'*10
+
 Beam::msg pid_worker, [:msg, 'hello world to worker']
 Beam::msg pid_watcher, [:msg, 'hello world to watcher']
 
 sleep 2
-
-

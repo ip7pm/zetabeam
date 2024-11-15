@@ -17,5 +17,4 @@ end
 pid = Beam::spawn Worker, :run, []
 Beam::msg pid, [:msg, 'hello world']
 
-
 sleep 2

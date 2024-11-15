@@ -22,6 +22,9 @@ pids = []
 end
 
 sleep 1
+
+puts '-'*10
+p Beam::Process::list()
 puts '-'*10
 
 loop {
@@ -29,6 +32,3 @@ loop {
   Beam::msg pid, [:msg, 'hello world']
   sleep 1
 }
-
-
-
