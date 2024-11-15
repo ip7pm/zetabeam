@@ -1,0 +1,20 @@
+
+# Ignore tmp folder
+/tmp
+
+# Ignore OSX files
+.DS_Store
+
+# Editors and IDE
+.idea/
+.vscode/
+*.code-workspace
+
+# Ignore Vim artifacts
+**.swp
+**.swo
+
+# Emacs
+*~
+.\#*
+
