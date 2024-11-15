@@ -1,7 +1,8 @@
 module Beam
 
   class Process
-    @processes = {}
+    # NOTE: The PID of the main process must be in the list
+    @processes = {"#PID<0.0.0>" => []}
 
     class << self
       def list()
