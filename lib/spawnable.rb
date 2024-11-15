@@ -12,9 +12,12 @@ module Beam
       @mailbox.pop
     end
 
+    def msg(pid, msg)
+      Beam::Process::msg pid, msg
+    end
+
     def push_msg_in_mailbox(msg)
       @mailbox.push msg
     end
   end
-
 end
