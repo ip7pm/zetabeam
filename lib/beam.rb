@@ -11,4 +11,8 @@ module Beam
     Beam::Process::msg pid, msg
   end
 
+  def self.me()           # i.e  self() in Elixir
+    # TODO: Think about the main process PID value
+    "#PID<0.0.0>"
+  end
 end

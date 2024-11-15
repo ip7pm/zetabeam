@@ -8,6 +8,10 @@ module Beam
       @mailbox = Queue.new
     end
 
+    def me()
+      @pid
+    end
+
     def receive()
       @mailbox.pop
     end
