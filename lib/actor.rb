@@ -3,6 +3,7 @@ module Beam
   class Actor
     # NOTE: The PID of the main actor must be in the list
     @actors = {"#PID<0.0.0>" => []}
+    @registers = {}
 
     class << self
       def list()
@@ -34,7 +35,10 @@ module Beam
         pid
       end
 
-      def msg(pid, msg)
+      def msg(pid_or_name, msg)
+        # If registered name instead of normal pid
+        pid = pid_or_name.is_a?(Symbol) ? get_registered_pid(pid_or_name) : pid_or_name
+
         # Retreive the actor
         info = @actors[pid]
         if info.nil?
@@ -45,6 +49,34 @@ module Beam
           ki, _t = info
           ki.push_msg_in_mailbox msg
         end
+      end
+
+      def register(pid, name)
+        raise ArgumentError, "Name must be a Symbol" unless name.is_a? Symbol
+        raise ArgumentError, "Name: #{name} already taken" if @registers.has_key? name
+        raise ArgumentError, "Process pid: #{pid} is not alive" unless alive? pid
+        @registers.store name, pid
+      end
+
+      def unregister(name)
+        raise ArgumentError, "Name must be a Symbol" unless name.is_a? Symbol
+        raise ArgumentError, "Cannot unregister name: #{name}" unless @registers.has_key? name
+        @registers.delete name
+      end
+
+      def registered()
+        @registers.keys()
+      end
+
+      def get_registered_pid(name)
+        raise ArgumentError, "Name must be a Symbol" unless name.is_a? Symbol
+        raise ArgumentError, "Name: #{name} is not registered" unless @registers.has_key? name
+        @registers[name]
+      end
+
+      def registered?(name)
+        raise ArgumentError, "Name must be a Symbol" unless name.is_a? Symbol
+        @registers.has_key? name
       end
     end
   end
