@@ -1,16 +1,16 @@
 module Beam
 
-  class Process
-    # NOTE: The PID of the main process must be in the list
-    @processes = {"#PID<0.0.0>" => []}
+  class Actor
+    # NOTE: The PID of the main actor must be in the list
+    @actors = {"#PID<0.0.0>" => []}
 
     class << self
       def list()
-        @processes.keys()
+        @actors.keys()
       end
 
       def alive?(pid)
-        info = @processes[pid]
+        info = @actors[pid]
         return false if info.nil?
         _ki, t = info
         t.alive?
@@ -26,20 +26,20 @@ module Beam
 
         t = Thread.new {
           ki.send method, *args
-          @processes.delete pid
+          @actors.delete pid
         }
 
-        # Maintain the list of running processes
-        @processes.store pid, [ki, t]
+        # Maintain the list of running actors
+        @actors.store pid, [ki, t]
         pid
       end
 
       def msg(pid, msg)
-        # Retreive the process
-        info = @processes[pid]
+        # Retreive the actor
+        info = @actors[pid]
         if info.nil?
-          # TODO: What to do if process does not exists
-          raise "The process pid: #{pid} does not exists"
+          # TODO: What to do if actor does not exists
+          raise "The actor pid: #{pid} does not exists"
         else
           # Send message
           ki, _t = info

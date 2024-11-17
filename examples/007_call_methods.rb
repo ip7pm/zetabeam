@@ -22,18 +22,18 @@ class Worker < Beam::Spawnable
   end
 end
 
-# Start the process
+# Start the Actor
 pid = Beam::spawn Worker, :run, []
 sleep 0.2
 
-# Output the running processes list
+# Output the running Actors list
 puts '-'*10
-p Beam::Process::list()
+p Beam::Actor::list()
 puts '-'*10
 
 # Send message to Worker
 # But here the message format is like so:
-# - First item of the array is the method of the processwe want to call
+# - First item of the array is the method of the Actor we want to call
 # - Second item of the array are the arguments of the method we want to call
 # It mean the Worker.run() method act like a method dispacher
 Beam::msg pid, [:job_compute, [4]]
