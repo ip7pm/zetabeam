@@ -1,5 +1,6 @@
 require_relative './spawnable'
 require_relative './actor'
+require_relative './helper/methods_dispatcher'
 
 module Beam
 
