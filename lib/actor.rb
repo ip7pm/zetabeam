@@ -54,7 +54,7 @@ module Beam
       def register(pid, name)
         raise ArgumentError, "Name must be a Symbol" unless name.is_a? Symbol
         raise ArgumentError, "Name: #{name} already taken" if @registers.has_key? name
-        raise ArgumentError, "Process pid: #{pid} is not alive" unless alive? pid
+        raise ArgumentError, "Actor pid: #{pid} is not alive" unless alive? pid
         @registers.store name, pid
       end
 

@@ -31,7 +31,7 @@ sleep 1
 # And the Actor is still alive
 puts "actor pid: #{pid} is alive?: #{Beam::Actor::alive? pid}"
 
-# Wait a little bit otherwise the main 1ctor (i.e the current program)
+# Wait a little bit otherwise the main Actor (i.e the current program)
 # is dying before the thread can do anything
 sleep 2
 puts '--- bye ---'

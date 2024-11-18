@@ -16,7 +16,7 @@ end
 
 class Watcher < Beam::Spawnable
   def run()
-    puts "Watcher started, pid: #{@pid}"
+    puts "Watcher started, pid: #{me()}"
 
     # Sart 10 Worker Actors
     pids = []
@@ -27,11 +27,11 @@ class Watcher < Beam::Spawnable
     loop {
       msg, data = receive
       if msg == :msg
-        puts "Watcher, pid: #{@pid} recv: #{data}"
-        pid_worker = pids[rand(0..9)]
-        msg pid_worker, [:msg, data + " - from watcher #{me()}"]
+        puts "Watcher, pid: #{me()} recv: #{data}"
+        worker_pid = pids[rand(0..9)]
+        msg worker_pid, [:msg, data + " - from watcher #{me()}"]
       else
-        puts "Watcher, pid: #{@pid} recv: Unknown message"
+        puts "Watcher, pid: #{me()} recv: Unknown message"
       end
     }
   end

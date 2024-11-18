@@ -14,7 +14,7 @@ class Worker < Beam::Spawnable
   end
 end
 
-# Start 10 Actor running the Worker.run() method
+# Start 10 Actors running the Worker.run() method
 pids = []
 10.times do |idx|
   pids << Beam::spawn(Worker, :run, [idx])

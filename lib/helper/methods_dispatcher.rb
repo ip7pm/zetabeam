@@ -7,7 +7,7 @@ module Beam
           if respond_to? method
             send method, *args
           else
-            puts "Process, pid #{@pid}: Unknown method: #{method}"
+            puts "Actor, pid #{me()}: Unknown method: #{method}"
           end
         }
       end
