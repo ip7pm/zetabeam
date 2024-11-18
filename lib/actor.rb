@@ -32,11 +32,12 @@ module Beam
 
         # Maintain the list of running actors
         @actors.store pid, [ki, t]
+        # TODO: (T1) Remove Actor from @registers if it is registered
         pid
       end
 
       def msg(pid_or_name, msg)
-        # If registered name instead of normal pid
+        # If it's a registered name instead of normal pid
         pid = pid_or_name.is_a?(Symbol) ? get_registered_pid(pid_or_name) : pid_or_name
 
         # Retreive the actor
@@ -68,15 +69,15 @@ module Beam
         @registers.keys()
       end
 
+      def registered?(name)
+        raise ArgumentError, "Name must be a Symbol" unless name.is_a? Symbol
+        @registers.has_key? name
+      end
+
       def get_registered_pid(name)
         raise ArgumentError, "Name must be a Symbol" unless name.is_a? Symbol
         raise ArgumentError, "Name: #{name} is not registered" unless @registers.has_key? name
         @registers[name]
-      end
-
-      def registered?(name)
-        raise ArgumentError, "Name must be a Symbol" unless name.is_a? Symbol
-        @registers.has_key? name
       end
     end
   end
