@@ -16,13 +16,13 @@ end
 
 class Watcher < Beam::Spawnable
   def run()
-    puts "Watcher started, pid: #{@pid}"
+    puts "Watcher started, pid: #{me()}"
     loop {
       case receive
       in [:msg, data] if data.is_a? String
-        puts "Worker pid: #{me()}, recv: #{data}"
+        puts "Watcher pid: #{me()}, recv: #{data}"
       else
-        puts "Worker pid: #{me()}, recv: Unknown message"
+        puts "Watcher: #{me()}, recv: Unknown message"
       end
     }
   end
