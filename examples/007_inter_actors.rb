@@ -1,30 +1,30 @@
 require_relative '../lib/beam'
 
-class Watcher < Beam::Spawnable
-  def run()
-    puts "Watcher started, pid: #{me()}"
+class Worker < Beam::Spawnable
+  def run(idx)
+    puts "Worker (#{idx}) started, pid: #{me()}"
     loop {
-      msg, pid_worker, data = receive
-      if msg == :msg
-        puts "Watcher, pid: #{me()} recv: #{data}"
-        # Send message to worker using the pid we receive
-        msg pid_worker, [:msg, data + " - from watcher #{me()}"]
+      case receive
+      in [:msg, data] if data.is_a? String
+        puts "Worker (#{idx}) pid: #{me()} recv: #{data}"
       else
-        puts "Watcher, pid: #{me()} recv: Unknown message"
+        puts "Worker (#{idx}) pid: #{me()} recv: Unknown message"
       end
     }
   end
 end
 
-class Worker < Beam::Spawnable
-  def run(idx)
-    puts "Worker (#{idx}) started, pid: #{me()}"
+class Watcher < Beam::Spawnable
+  def run()
+    puts "Watcher started, pid: #{me()}"
     loop {
-      msg, data = receive
-      if msg == :msg
-        puts "Worker (#{idx}) pid: #{me()} recv: #{data}"
+      case receive
+      in [:msg, pid_worker, data] if data.is_a? String
+        puts "Worker pid: #{me()}, recv: #{data}"
+        # Send message to worker using the pid we receive
+        msg pid_worker, [:msg, data + " - from watcher #{me()}"]
       else
-        puts "Worker (#{idx}) pid: #{me()} recv: Unknown message"
+        puts "Worker pid: #{me()}, recv: Unknown message"
       end
     }
   end
