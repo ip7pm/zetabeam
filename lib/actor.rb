@@ -43,7 +43,7 @@ module Beam
         # Retreive the actor
         info = @actors[pid]
         if info.nil?
-          # TODO: What to do if actor does not exists
+          # TODO: (T3) What to do if actor does not exists
           raise "The actor pid: #{pid} does not exists"
         else
           # Send message

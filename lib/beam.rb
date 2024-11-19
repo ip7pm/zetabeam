@@ -13,7 +13,7 @@ module Beam
   end
 
   def self.me()           # i.e  self() in Elixir
-    # TODO: Think about the main actor PID value
+    # TODO: (T2) Think about the main actor PID value
     "#PID<0.0.0>"
   end
 end
