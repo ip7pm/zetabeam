@@ -4,11 +4,11 @@ class Worker < Beam::Spawnable
   def run(idx)
     puts "Worker (#{idx}) started, pid: #{me()}"
     loop {
-      msg, data = receive
-      if msg == :msg
-        puts "Worker (#{idx}) pid: #{me()} recv: #{data}"
+      case receive
+      in [:msg, data] if data.is_a? String
+        puts "Worker (#{idx}), pid: #{me()} recv: #{data}"
       else
-        puts "Worker (#{idx}) pid: #{me()} recv: Unknown message"
+        puts "Worker (#{idx}), pid: #{me()} recv: Unknown message"
       end
     }
   end
@@ -18,15 +18,15 @@ class Watcher < Beam::Spawnable
   def run()
     puts "Watcher started, pid: #{me()}"
 
-    # Sart 10 Worker Actors
+    # Start 10 Worker Actors
     pids = []
     10.times do |idx|
       pids << spawn(Worker, :run, [idx])
     end
 
     loop {
-      msg, data = receive
-      if msg == :msg
+      case receive
+      in [:msg, data] if data.is_a? String
         puts "Watcher, pid: #{me()} recv: #{data}"
         worker_pid = pids[rand(0..9)]
         msg worker_pid, [:msg, data + " - from watcher #{me()}"]
@@ -54,5 +54,5 @@ loop {
   sleep 1
 }
 
-# Ctrl+c to stop
+# Ctrl+c to Stop
 puts '--- bye ---'
