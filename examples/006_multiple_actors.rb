@@ -2,13 +2,13 @@ require_relative '../lib/beam'
 
 class Worker < Beam::Spawnable
   def run()
-    puts "Worker started, pid: #{@pid}"
+    puts "Worker started, pid: #{me()}"
     loop {
-      msg, data = receive
-      if msg == :msg
-        puts "Worker pid: #{@pid} recv: #{data}"
+      case receive
+      in [:msg, data] if data.is_a? String
+        puts "Worker pid: #{me()}, recv: #{data}"
       else
-        puts "Worker pid: #{@pid} recv: Unknown message"
+        puts "Worker pid: #{me()}, recv: Unknown message"
       end
     }
   end
@@ -18,11 +18,11 @@ class Watcher < Beam::Spawnable
   def run()
     puts "Watcher started, pid: #{@pid}"
     loop {
-      msg, data = receive
-      if msg == :msg
-        puts "Watcher, pid: #{@pid} recv: #{data}"
+      case receive
+      in [:msg, data] if data.is_a? String
+        puts "Worker pid: #{me()}, recv: #{data}"
       else
-        puts "Watcher, pid: #{@pid} recv: Unknown message"
+        puts "Worker pid: #{me()}, recv: Unknown message"
       end
     }
   end
