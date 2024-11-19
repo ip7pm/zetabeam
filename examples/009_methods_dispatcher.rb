@@ -2,7 +2,7 @@ require_relative '../lib/beam'
 
 # NOTE:
 # This the same example as 007_call_methods.rb but using the
-# Beam::Helper::MethodsDispatcher helper
+# the helper module : Beam::Helper::MethodsDispatcher
 
 class Worker < Beam::Spawnable
   include Beam::Helper::MethodsDispatcher
@@ -25,9 +25,12 @@ puts '-'*10
 p Beam::Actor::list()
 puts '-'*10
 
+# Send messages
 Beam::msg pid, [:job_compute, [4]]
 Beam::msg pid, [:job_name, ['Mr', 'Bob']]
+puts ''
 Beam::msg pid, [:no_method, []]
+Beam::msg pid, ['bad', 'message']
 
 sleep 2
 puts '--- bye ---'
