@@ -6,8 +6,8 @@ class Worker < Beam::Spawnable
     # Infinite loop makes the actor running for ever
     # (so, it can handle many messages)
     loop {
-      msg, data = receive
-      if msg == :msg
+      case receive
+      in [:msg, data] if data.is_a? String
         puts "Worker pid: #{me()}, recv: #{data}"
       else
         puts "Worker pid: #{me()}, recv: Unknown message"
@@ -26,6 +26,8 @@ sleep 1
 Beam::msg pid, [:msg, 'another message']
 sleep 1
 Beam::msg pid, [:unknown, 'bad message']
+sleep 1
+Beam::msg pid, [:msg, 72]    # Will not pattern match, data must be a String
 sleep 1
 
 # And the Actor is still alive
