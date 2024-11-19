@@ -6,8 +6,8 @@ class Worker < Beam::Spawnable
 
     # The receive() method is blocking until a message
     # is available in the Actor mailbox
-    msg, data = receive
-    if msg == :msg
+    case receive
+    in [:msg, data] then
       puts "Worker pid: #{me()}, recv: #{data}"
     else
       puts "Worker pid: #{me()}, recv: Unknown message"
