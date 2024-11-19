@@ -2,13 +2,13 @@ require_relative '../lib/beam'
 
 class Worker < Beam::Spawnable
   def run(idx)
-    puts "Worker (#{idx}) started, pid: #{@pid}"
+    puts "Worker (#{idx}) started, pid: #{me()}"
     loop {
-      msg, data = receive
-      if msg == :msg
-        puts "Worker (#{idx}), pid: #{@pid} recv: #{data}"
+      case receive
+      in [:msg, data] if data.is_a? String
+        puts "Worker (#{idx}), pid: #{me()} recv: #{data}"
       else
-        puts "Worker (#{idx}), pid: #{@pid} recv: Unknown message"
+        puts "Worker (#{idx}), pid: #{me()} recv: Unknown message"
       end
     }
   end
