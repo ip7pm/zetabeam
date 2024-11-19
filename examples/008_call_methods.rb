@@ -2,13 +2,17 @@ require_relative '../lib/beam'
 
 class Worker < Beam::Spawnable
   def run()
-    puts "Worker started, pid: #{@pid}"
+    puts "Worker started, pid: #{me()}"
     loop {
-      method, args = receive
-      if respond_to? method
-        send method, *args
+      case receive
+      in [method, args] if method.is_a? Symbol and args.is_a? Array
+        if respond_to? method
+          send method, *args
+        else
+          puts "Worker, pid #{me()}: Unknown method: #{method}"
+        end
       else
-        puts "Worker, pid #{@pid}: Unknown method: #{method}"
+        puts "Worker pid: #{me()}, recv: Unknown message"
       end
     }
   end
@@ -38,7 +42,9 @@ puts '-'*10
 # It mean the Worker.run() method act like a method dispacher
 Beam::msg pid, [:job_compute, [4]]
 Beam::msg pid, [:job_name, ['Mr', 'Bob']]
+puts ''
 Beam::msg pid, [:no_method, []]
+Beam::msg pid, ['bad', 'message']
 
 sleep 2
 puts '--- bye ---'
