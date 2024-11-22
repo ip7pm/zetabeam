@@ -20,7 +20,7 @@ module Beam
       def spawn(klass, method, args)
         # Generate a PID
         # TODO: Make sure the pid does not already exists (must be unique)
-        pid = "#PID<0.#{rand(0..500)}.#{rand(0..500)}>"
+        pid = "#PID<0.#{rand(1..500)}.#{rand(0..500)}>"
 
         # Run klass.method in a separate thread
         ki = klass.new pid
