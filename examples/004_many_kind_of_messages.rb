@@ -4,8 +4,9 @@ class Worker < Beam::Spawnable
   def run()
     puts "Worker started, pid: #{me()}"
     loop {
-      case receive
-      in [:msg, data] then
+      msg = receive
+      case msg
+      in [:msg, data] if data.is_a? String
         puts "Worker pid: #{me()}, recv: #{data}"
 
       in [:add, a, b] then
@@ -14,8 +15,12 @@ class Worker < Beam::Spawnable
       in [:sub, a, b] if a.is_a? Integer and b.is_a? Integer
         puts "Worker pid: #{me()}, sub: #{a} - #{b} = #{a - b}"
 
+      in {op: :mul, a: a, b: b} if a.is_a? Integer and b.is_a? Integer
+        puts "Worker pid: #{me()}, mul: #{a} * #{b} = #{a * b}"
+
       else
         puts "Worker pid: #{me()}, recv: Unknown message"
+        p msg
       end
     }
   end
@@ -33,10 +38,14 @@ Beam::msg pid, [:add, 'hello', ' world']
 sleep 1
 Beam::msg pid, [:sub, 72, 21]
 sleep 1
-puts ''
-Beam::msg pid, [:unknown, 'bad message']    # Will not pattern match
+Beam::msg pid, {op: :mul, a: 10, b: 2}
 sleep 1
-Beam::msg pid, [:sub, 'hello', 'world']     # Will not pattern match
+puts '-'*5
+Beam::msg pid, [:msg, 21]
+sleep 1
+Beam::msg pid, [:sub, 'hello', 21]     # Will not pattern match
+sleep 1
+Beam::msg pid, [:unknown, 'bad message']    # Will not pattern match
 sleep 1
 
 # And the Actor is still alive
