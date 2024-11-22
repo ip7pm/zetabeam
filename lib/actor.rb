@@ -37,7 +37,6 @@ module Beam
 
         # Maintain the list of running actors
         @actors.store pid, [ki, t]
-        # TODO: (T1) Remove Actor from @registers if it is registered
         pid
       end
 
@@ -60,10 +59,10 @@ module Beam
       end
 
       def register(pid, name)
-        # TODO: (T5) Cannot register an Actor if it is already registered
         raise ArgumentError, "Name must be a Symbol" unless name.is_a? Symbol
         raise ArgumentError, "Name: #{name} already taken" if @registers.has_key? name
         raise ArgumentError, "Actor pid: #{pid} is not alive" unless alive? pid
+        raise ArgumentError, "Actor pid: #{pid} is already registered" if @registers.has_value? pid
         @registers.store name, pid
       end
 
