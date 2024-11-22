@@ -50,6 +50,13 @@ module Beam
         # If it's a registered name instead of normal pid
         pid = pid_or_name.is_a?(Symbol) ? get_registered_pid(pid_or_name) : pid_or_name
 
+        # Particular case if the message is send to the main ruby process
+        # Main process act like an Actor with harcoded pid: #PID<0.0.0>
+        if pid == Beam::me()
+          Beam::push_msg_in_mailbox msg
+          return
+        end
+
         # Retreive the actor
         info = @actors[pid]
         if info.nil?
