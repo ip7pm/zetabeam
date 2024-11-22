@@ -28,6 +28,11 @@ module Beam
         t = Thread.new {
           ki.send method, *args
           @actors.delete pid
+          # Remove pid from registry if necessary
+          if @registers.has_value? pid
+            name = @registers.key pid
+            @registers.delete name
+          end
         }
 
         # Maintain the list of running actors
@@ -55,6 +60,7 @@ module Beam
       end
 
       def register(pid, name)
+        # TODO: (T5) Cannot register an Actor if it is already registered
         raise ArgumentError, "Name must be a Symbol" unless name.is_a? Symbol
         raise ArgumentError, "Name: #{name} already taken" if @registers.has_key? name
         raise ArgumentError, "Actor pid: #{pid} is not alive" unless alive? pid
