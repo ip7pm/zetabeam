@@ -2,7 +2,7 @@ require_relative '../lib/beam'
 
 class Worker < Beam::Spawnable
   def run()
-    puts "Worker started, pid: #{@pid}"
+    puts "Worker started, pid: #{me()}"
     loop {
       case receive
       in [:ping, pid]
