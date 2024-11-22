@@ -50,6 +50,8 @@ module Beam
           ki, _t = info
           ki.push_msg_in_mailbox msg
         end
+
+        msg
       end
 
       def register(pid, name)
