@@ -26,12 +26,18 @@ module Beam
         ki = klass.new pid
 
         t = Thread.new {
-          ki.send method, *args
-          @actors.delete pid
-          # Remove pid from registry if necessary
-          if @registers.has_value? pid
-            name = @registers.key pid
-            @registers.delete name
+          begin
+            ki.send method, *args
+          rescue => e
+            # TODO: (T6) Here the is something to handle if the Actor is_a
+            # linked or monitored
+            puts "Actor pid, #{pid}, crashed with msg: #{e.message}"
+          ensure
+            @actors.delete pid
+            if @registers.has_value? pid
+              name = @registers.key pid
+              @registers.delete name
+            end
           end
         }
 
