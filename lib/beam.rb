@@ -1,4 +1,5 @@
 require_relative './spawnable'
+require_relative './spawnable_proc'
 require_relative './actor'
 require_relative './helper/methods_dispatcher'
 

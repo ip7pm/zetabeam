@@ -22,15 +22,20 @@ module Beam
         # TODO: Make sure the pid does not already exists (must be unique)
         pid = "#PID<0.#{rand(1..500)}.#{rand(0..500)}>"
 
-        # Run klass.method in a separate thread
-        ki = klass.new pid
+        if klass.is_a? Proc
+          ki = SpawnableProc.new pid
+          ki.encapsulate_proc klass
+          method = :run
+        else
+          ki = klass.new pid
+        end
 
+        # Run klass.method in a separate thread
         t = Thread.new {
           begin
             ki.send method, *args
           rescue => e
-            # TODO: (T6) Here the is something to handle if the Actor is_a
-            # linked or monitored
+            # TODO: (T6) Here is something to handle if the Actor is linked or monitored
             puts "Actor pid, #{pid}, crashed with msg: #{e.message}"
           ensure
             @actors.delete pid
