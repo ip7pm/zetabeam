@@ -23,6 +23,7 @@ module Beam
         pid = "#PID<0.#{rand(1..500)}.#{rand(0..500)}>"
 
         if klass.is_a? Proc
+          raise ArgumentError, "Cannot use 'method' argument with lambda or proc" unless method.nil?
           ki = SpawnableProc.new pid
           ki.encapsulate_proc klass
           method = :run
