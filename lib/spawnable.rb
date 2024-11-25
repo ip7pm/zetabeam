@@ -6,6 +6,25 @@ module Beam
     def initialize(pid)
       @pid = pid
       @mailbox = Queue.new
+      @flags = {
+        # TODO: Implement :priority flag
+        trap_exit: false,
+      }
+    end
+
+    def flag(flag, value)
+      if flag == :trap_exit
+        raise(ArgumentError, 'Value must be a Boolean') unless [TrueClass, FalseClass].include?(value.class)
+        old = @flags[flag]
+        @flags.store flag, value
+        old
+      else
+        raise ArgumentError, "Only flag ':trap_exit' supported" 
+      end
+    end
+
+    def trap_exit?()
+      @flags[:trap_exit]
     end
 
     def me()
