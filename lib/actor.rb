@@ -105,7 +105,68 @@ module Beam
         raise ArgumentError, "Name: #{name} is not registered" unless @registers.has_key? name
         @registers[name]
       end
+
+      def exit(sender, receiver, reason)
+        info = @actors[receiver]
+        if info.nil?
+          # TODO: (T7) Erland/Elixir return 'true' in this case.
+          # In fact it always return 'true'
+          raise "The actor pid: #{pid} does not exists"
+        end
+        ki, t = info
+
+        if reason == :normal
+          exit_normal_reason sender, receiver, ki, t
+        elsif reason == :kill
+          exit_kill_reason sender, receiver, ki, t
+        else
+          exit_any_reason sender, receiver, reason, ki, t
+        end
+      end
+
+
+      private
+
+        def exit_normal_reason(sender, receiver, ki, t)
+          if ki.trap_exit?
+            # Transform the exit signal in message {:EXIT, from, reason}
+            Beam::Actor::msg receiver, [:EXIT, sender, :normal]
+          else
+            if sender == receiver
+              # Actor must Exit
+              do_exit sender, receiver, :normal, t
+            else
+              # NOTE: Nothing to do, the exit signal is ignored
+            end
+          end
+        end
+
+        def exit_kill_reason(sender, receiver, ki, t)
+          # Actor must Exit
+          do_exit sender, receiver, :killed, t
+        end
+
+        def exit_any_reason(sender, receiver, reason, ki, t)
+          if ki.trap_exit?
+            # Transform the exit signal in message {:EXIT, from, reason}
+            Beam::Actor::msg receiver, [:EXIT, sender, reason]
+          else
+            # Actor must Exit
+            do_exit sender, receiver, reason, t
+          end
+        end
+
+        def do_exit(sender, receiver, reason, t)
+          t.exit
+          @actors.delete receiver
+          if @registers.has_value? receiver
+            name = @registers.key receiver
+            @registers.delete name
+          end
+          #
+          # TODO: (T8) If Actor is linked or monitored to other Actors we need to
+          # handle it here
+        end
     end
   end
-
 end

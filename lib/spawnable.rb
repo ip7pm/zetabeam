@@ -12,6 +12,22 @@ module Beam
       }
     end
 
+    def me()
+      @pid
+    end
+
+    def receive()
+      @mailbox.pop
+    end
+
+    def msg(pid, msg)
+      Beam::Actor::msg pid, msg
+    end
+
+    def spawn(klass, method, args)
+      Beam::Actor::spawn klass, method, args
+    end
+
     def flag(flag, value)
       if flag == :trap_exit
         raise(ArgumentError, 'Value must be a Boolean') unless [TrueClass, FalseClass].include?(value.class)
@@ -27,20 +43,8 @@ module Beam
       @flags[:trap_exit]
     end
 
-    def me()
-      @pid
-    end
-
-    def receive()
-      @mailbox.pop
-    end
-
-    def msg(pid, msg)
-      Beam::Actor::msg pid, msg
-    end
-
-    def spawn(klass, method, args)
-      Beam::Actor::spawn klass, method, args
+    def exit(pid, reason)
+      Beam::Actor::exit me(), pid, reason
     end
 
     def push_msg_in_mailbox(msg)

@@ -23,6 +23,10 @@ module Beam
     @mailbox.pop
   end
 
+  def self.exit(pid, reason)
+    Beam::Actor::exit Beam::me(), pid, reason
+  end
+
   def self.push_msg_in_mailbox(msg)
     @mailbox.push msg
   end
