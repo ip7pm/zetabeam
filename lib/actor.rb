@@ -87,7 +87,7 @@ module Beam
 
       def unregister(name)
         raise ArgumentError, "Name must be a Symbol" unless name.is_a? Symbol
-        raise ArgumentError, "Cannot unregister name: #{name}" unless @registers.has_key? name
+        raise ArgumentError, "Name: #{name} is not registered" unless @registers.has_key? name
         @registers.delete name
       end
 
