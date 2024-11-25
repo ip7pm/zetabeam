@@ -18,7 +18,7 @@ lambda_worker_args = -> (a, b) {
 
 # -----
 
-proc_worker = -> {
+proc_worker = Proc.new {
   puts "Proc Worker started, pid: #{me()}"
   loop {
     msg = receive
@@ -26,7 +26,7 @@ proc_worker = -> {
   }
 }
 
-proc_worker_args = -> (a, b) {
+proc_worker_args = Proc.new { |a, b|
   puts "Proc Worker started, pid: #{me()}, args: a=#{a}, b=#{b}"
   loop {
     msg = receive
