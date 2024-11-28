@@ -34,11 +34,11 @@ proc_worker_args = Proc.new { |a, b|
   }
 }
 
-# Start Actors using the Lambda
+# Start Beam::Process using the Lambda
 lambda_worker_pid = Beam::spawn lambda_worker, nil, []
 lambda_worker_args_pid = Beam::spawn lambda_worker_args, nil, [5, 10]
 
-# Start Actors using the Proc
+# Start Beam::Process using the Proc
 proc_worker_pid = Beam::spawn proc_worker, nil, []
 proc_worker_args_pid = Beam::spawn proc_worker_args, nil, [5, 10]
 

@@ -18,7 +18,7 @@ end
 
 puts '-'*20
 
-# Start an Actor running the Worker.run()
+# Start a Beam::Process running the Worker.run()
 pid = Beam::spawn Worker, :run, []
 
 sleep 0.2
@@ -34,14 +34,14 @@ _t = Thread.new {
   }
 }
 
-# Main programm act like an Actor and wait
+# Main programm act like Beam::Process and wait
 # for receiving a Ack message
 loop {
   case Beam::receive
   in [:ack, msg] then
-    puts "Main Actor recv: Ack -> #{msg}"
+    puts "Main Process recv: Ack -> #{msg}"
   else
-    puts "Main Actor recv: Unknown message"
+    puts "Main Process recv: Unknown message"
   end
 }
 

@@ -18,7 +18,7 @@ class Watcher < Beam::Spawnable
   def run()
     puts "Watcher started, pid: #{me()}"
 
-    # Start 10 Worker Actors
+    # Start 10 Worker Beam::Process
     pids = []
     10.times do |idx|
       pids << spawn(Worker, :run, [idx])
@@ -37,13 +37,13 @@ class Watcher < Beam::Spawnable
   end
 end
 
-# Start Watcher Actor
+# Start Watcher Beam::Process
 pid = Beam::spawn Watcher, :run, []
 sleep 0.2
 
-# Output the running Actors list
+# Output the running Beam::Process list
 puts '-'*10
-p Beam::Actor::list()
+p Beam::Process::list()
 puts '-'*10
 
 # Inifite loop sending message to watcher

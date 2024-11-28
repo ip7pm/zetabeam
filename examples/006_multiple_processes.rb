@@ -28,14 +28,14 @@ class Watcher < Beam::Spawnable
   end
 end
 
-# Start Actors
+# Start Beam::Process
 pid_worker = Beam::spawn Worker, :run, []
 pid_watcher = Beam::spawn Watcher, :run, []
 sleep 0.2
 
-# Output the running Actors list
+# Output the running Beam::Process list
 puts '-'*10
-p Beam::Actor::list()
+p Beam::Process::list()
 puts '-'*10
 
 # Send message to each one

@@ -15,17 +15,16 @@ class Worker < Beam::Spawnable
   end
 end
 
-
 pid = Beam::spawn Worker, :run, []
 Beam::msg pid, [:ping, Beam::me()]
 
-# Main ruby process act like an Actor with pid: #PID<0.0.0> and
-# be able to send and receive message to other Actors
+# Main ruby process act like an Beam::Process with pid: #PID<0.0.0> and
+# be able to send and receive message to other Beam::Process
 case Beam::receive
 in [msg, from] then
-  puts "Main Actor recv: #{msg} from #{from}"
+  puts "Main Process recv: #{msg} from #{from}"
 else
-  puts "Main Actor, recv: Unknown message"
+  puts "Main Process, recv: Unknown message"
 end
 
 puts '--- bye ---'
