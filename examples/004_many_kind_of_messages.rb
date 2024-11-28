@@ -41,9 +41,9 @@ sleep 1
 Beam::msg pid, {op: :mul, a: 10, b: 2}
 sleep 1
 puts '-'*5
-Beam::msg pid, [:msg, 21]
+Beam::msg pid, [:msg, 21]                   # Will not pattern match
 sleep 1
-Beam::msg pid, [:sub, 'hello', 21]     # Will not pattern match
+Beam::msg pid, [:sub, 'hello', 21]          # Will not pattern match
 sleep 1
 Beam::msg pid, [:unknown, 'bad message']    # Will not pattern match
 sleep 1
