@@ -16,13 +16,13 @@ class Worker < Beam::Spawnable
   end
 end
 
-# Start the Actor
+# Start the Beam::Process
 pid = Beam::spawn Worker, :run, []
 sleep 0.2
 
-# Output the running Actors list
+# Output the running Beam::Process list
 puts '-'*10
-p Beam::Actor::list()
+p Beam::Process::list()
 puts '-'*10
 
 # Send messages

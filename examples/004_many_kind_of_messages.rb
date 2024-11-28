@@ -26,10 +26,10 @@ class Worker < Beam::Spawnable
   end
 end
 
-# Start a Actor running the Worker.run()
+# Start a Beam::Process running the Worker.run() method
 pid = Beam::spawn Worker, :run, []
 
-# Send messages to the Actor using his pid
+# Send messages to the Beam::Process using his pid
 Beam::msg pid, [:msg, 'hello world']
 sleep 1
 Beam::msg pid, [:add, 12, 34]
@@ -48,9 +48,9 @@ sleep 1
 Beam::msg pid, [:unknown, 'bad message']    # Will not pattern match
 sleep 1
 
-# And the Actor is still alive
+# And the Beam::Process is still alive
 puts ''
-puts "Actor pid: #{pid} is alive?: #{Beam::Actor::alive? pid}"
+puts "Process pid: #{pid} is alive?: #{Beam::Process::alive? pid}"
 
 puts '--- bye ---'
 

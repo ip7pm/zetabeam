@@ -8,11 +8,11 @@ module Beam::Helper
             send method, *args
           else
             # TODO: (T4) Raise an exception ? (if linked or monitored ?)
-            puts "Actor, pid #{me()}: Unknown method: #{method}"
+            raise "Undefined method: #{method}"
           end
         else
-            # TODO: (T4) Raise an exception ? (if linked or monitored ?)
-          puts "Actor, pid #{me()}: Unknown message"
+          # TODO: (T4) Raise an exception ? (if linked or monitored ?)
+          raise "Process, pid #{me()}: Unknown message"
         end
       }
     end

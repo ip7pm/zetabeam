@@ -14,19 +14,19 @@ class Worker < Beam::Spawnable
   end
 end
 
-# Start 10 Actors running the Worker.run() method
+# Start 10 Beam::Process running the Worker.run() method
 pids = []
 10.times do |idx|
   pids << Beam::spawn(Worker, :run, [idx])
 end
 sleep 0.2
 
-# Output the running Actors list
+# Output the running Beam::Process list
 puts '-'*10
-p Beam::Actor::list()
+p Beam::Process::list()
 puts '-'*10
 
-# Inifite loop sending message to a random Actor
+# Inifite loop sending message to a random Beam::Process
 loop {
   pid = pids[rand(0..9)]
   Beam::msg pid, [:msg, 'hello world']

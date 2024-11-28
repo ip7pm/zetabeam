@@ -14,19 +14,19 @@ class Worker < Beam::Spawnable
   end
 end
 
-# Start a Worker Actor
+# Start a Worker Beam::Process
 pid = Beam::spawn Worker, :run, []
 
-# Register the Actor with the name ':worker'
-Beam::Actor::register pid, :worker
+# Register the Beam::Process with the name ':worker'
+Beam::Process::register pid, :worker
 
 # List of registered names
-p Beam::Actor::registered()
+p Beam::Process::registered()
 
-# Send a message to the Actor using his pid
+# Send a message to the Beam::Process using his pid
 Beam::msg pid, [:msg, 'hello world using pid']
 
-# Send a message to the Actor using his registered name
+# Send a message to the Beam::Process using his registered name
 Beam::msg :worker, [:msg, 'hello world using name']
 
 sleep 2

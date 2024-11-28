@@ -21,11 +21,11 @@ module Beam
     end
 
     def msg(pid, msg)
-      Beam::Actor::msg pid, msg
+      Beam::Process::msg pid, msg
     end
 
     def spawn(klass, method, args)
-      Beam::Actor::spawn klass, method, args
+      Beam::Process::spawn klass, method, args
     end
 
     def flag(flag, value)
@@ -44,7 +44,7 @@ module Beam
     end
 
     def exit(pid, reason)
-      Beam::Actor::exit me(), pid, reason
+      Beam::Process::exit me(), pid, reason
     end
 
     def push_msg_in_mailbox(msg)
