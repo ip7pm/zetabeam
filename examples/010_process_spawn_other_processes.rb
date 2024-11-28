@@ -28,6 +28,7 @@ class Watcher < Beam::Spawnable
       case receive
       in [:msg, data] if data.is_a? String
         puts "Watcher, pid: #{me()} recv: #{data}"
+        # Forward the 'data' received to a random Worker
         worker_pid = pids[rand(0..9)]
         msg worker_pid, [:msg, data + " - from watcher #{me()}"]
       else
