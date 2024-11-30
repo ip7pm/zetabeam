@@ -1,5 +1,12 @@
 require_relative '../lib/beam'
 
+# -------------------------------------------------------------------
+# NOTE:
+# Keep in mind that Beam::Process are nothing related with operating
+# system process or Ruby Process class. It's basically the trick used
+# to mimic Erlang VM Process system by using Thread.
+# -------------------------------------------------------------------
+
 lambda_worker = -> {
   puts "Lambda Worker started, pid: #{me()}"
   loop {

@@ -1,5 +1,12 @@
 require_relative '../lib/beam'
 
+# -------------------------------------------------------------------
+# NOTE:
+# Keep in mind that Beam::Process are nothing related with operating
+# system process or Ruby Process class. It's basically the trick used
+# to mimic Erlang VM Process system by using Thread.
+# -------------------------------------------------------------------
+
 # NOTE:
 # This the same example as 007_call_methods.rb but using the
 # the helper module : Beam::Helper::MethodsDispatcher
